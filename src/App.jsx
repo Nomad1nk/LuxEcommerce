@@ -176,54 +176,115 @@ const ProfileSidebar = ({
 
   return (
     <div className={`fixed inset-0 overflow-hidden z-50 ${isProfileOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
-      <div className={`absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity duration-500 ${isProfileOpen ? 'opacity-100' : 'opacity-0'}`} onClick={() => setIsProfileOpen(false)} />
+      <div
+        className={`absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-500 ${isProfileOpen ? 'opacity-100' : 'opacity-0'}`}
+        onClick={() => setIsProfileOpen(false)}
+      />
       <div className={`fixed inset-y-0 right-0 max-w-md w-full flex transition-transform duration-500 transform ${isProfileOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-        <div className="h-full flex flex-col bg-white shadow-xl w-full">
-          <div className="px-6 py-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
-            <h2 className="text-xl font-serif font-bold text-gray-900">{userProfile ? 'My Account' : 'Welcome'}</h2>
-            <button onClick={() => setIsProfileOpen(false)} className="text-gray-400 hover:text-gray-600"><X className="w-6 h-6" /></button>
+        <div className="h-full flex flex-col bg-white shadow-2xl w-full">
+          {/* Header */}
+          <div className="px-8 py-8 flex justify-between items-center bg-white">
+            <h2 className="text-3xl font-serif font-bold text-gray-900 tracking-tight">
+              {userProfile ? `Hello, ${userProfile.name.split(' ')[0]}` : 'Welcome'}
+            </h2>
+            <button onClick={() => setIsProfileOpen(false)} className="text-gray-400 hover:text-black transition-colors">
+              <X className="w-6 h-6" />
+            </button>
           </div>
-          <div className="flex-1 overflow-y-auto p-6">
+
+          <div className="flex-1 overflow-y-auto px-8 pb-8">
             {userProfile ? (
-              <div className="space-y-8">
-                <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden">
-                  <div className="absolute top-0 right-0 p-4 opacity-10"><Award className="w-32 h-32" /></div>
-                  <div className="relative z-10">
-                    <div className="flex justify-between items-start mb-8">
+              <div className="space-y-10">
+                {/* VIP Card */}
+                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white shadow-2xl p-8 transform transition-transform hover:scale-[1.02] duration-300">
+                  <div className="absolute top-0 right-0 p-6 opacity-20">
+                    <Award className="w-40 h-40 -mr-10 -mt-10" />
+                  </div>
+                  <div className="relative z-10 flex flex-col h-48 justify-between">
+                    <div className="flex justify-between items-start">
                       <div>
-                        <p className="text-gray-400 text-xs uppercase tracking-wider mb-1">Membership Tier</p>
-                        <h3 className="text-2xl font-serif font-bold text-yellow-400 flex items-center gap-2">{userProfile.memberTier} <Shield className="w-5 h-5" /></h3>
+                        <p className="text-gray-400 text-xs uppercase tracking-[0.2em] mb-2">Membership</p>
+                        <h3 className="text-3xl font-serif italic text-yellow-500 flex items-center gap-2">
+                          {userProfile.memberTier} <Shield className="w-6 h-6" />
+                        </h3>
                       </div>
-                      <div className="h-10 w-10 bg-white/10 rounded-full flex items-center justify-center"><span className="font-bold text-lg">{userProfile.name.charAt(0)}</span></div>
+                      <div className="h-12 w-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20">
+                        <span className="font-serif font-bold text-xl">{userProfile.name.charAt(0)}</span>
+                      </div>
                     </div>
-                    <div className="space-y-1"><p className="text-sm text-gray-300">{userProfile.name}</p><p className="text-xs text-gray-500">{userProfile.email}</p></div>
+                    <div>
+                      <p className="font-medium tracking-wide text-lg">{userProfile.name}</p>
+                      <p className="text-sm text-gray-400 font-mono mt-1">{userProfile.email}</p>
+                    </div>
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <button onClick={() => { setView('orders'); setIsProfileOpen(false); }} className="w-full flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"><div className="flex items-center gap-3"><Package className="w-5 h-5 text-gray-600" /><span className="font-medium">Order History</span></div><ChevronRight className="w-4 h-4 text-gray-400" /></button>
-                  <button onClick={() => { setView('rewards'); setIsProfileOpen(false); }} className="w-full flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"><div className="flex items-center gap-3"><Gift className="w-5 h-5 text-gray-600" /><span className="font-medium">Rewards & Offers</span></div><ChevronRight className="w-4 h-4 text-gray-400" /></button>
+
+                {/* Menu */}
+                <div className="space-y-4">
+                  <button onClick={() => { setView('orders'); setIsProfileOpen(false); }} className="group w-full flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-black hover:text-white transition-all duration-300">
+                    <div className="flex items-center gap-4">
+                      <div className="p-2 bg-white rounded-full group-hover:bg-gray-800 transition-colors">
+                        <Package className="w-5 h-5 text-gray-900 group-hover:text-white" />
+                      </div>
+                      <span className="font-medium text-lg">Order History</span>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-white" />
+                  </button>
+
+                  <button onClick={() => { setView('rewards'); setIsProfileOpen(false); }} className="group w-full flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-black hover:text-white transition-all duration-300">
+                    <div className="flex items-center gap-4">
+                      <div className="p-2 bg-white rounded-full group-hover:bg-gray-800 transition-colors">
+                        <Gift className="w-5 h-5 text-gray-900 group-hover:text-white" />
+                      </div>
+                      <span className="font-medium text-lg">Rewards & Offers</span>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-white" />
+                  </button>
                 </div>
-                <button onClick={handleLogout} className="w-full py-3 border border-gray-200 rounded-lg text-red-500 font-medium hover:bg-red-50 transition-colors flex items-center justify-center gap-2"><LogOut className="w-4 h-4" /> Sign Out</button>
+
+                <button onClick={handleLogout} className="w-full py-4 border border-gray-200 rounded-xl text-gray-500 font-medium hover:bg-red-50 hover:text-red-600 hover:border-red-100 transition-all flex items-center justify-center gap-2 uppercase tracking-wider text-sm">
+                  <LogOut className="w-4 h-4" /> Sign Out
+                </button>
               </div>
             ) : (
               <div className="flex flex-col h-full">
-                <div className="flex mb-8 bg-gray-100 p-1 rounded-lg">
-                  <button onClick={() => setAuthTab('login')} className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${authTab === 'login' ? 'bg-white shadow text-black' : 'text-gray-500 hover:text-gray-700'}`}>Sign In</button>
-                  <button onClick={() => setAuthTab('register')} className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${authTab === 'register' ? 'bg-white shadow text-black' : 'text-gray-500 hover:text-gray-700'}`}>Register</button>
+                <div className="flex mb-10 bg-gray-100 p-1.5 rounded-xl">
+                  <button onClick={() => setAuthTab('login')} className={`flex-1 py-3 text-sm font-medium rounded-lg transition-all duration-300 ${authTab === 'login' ? 'bg-white shadow-md text-black' : 'text-gray-500 hover:text-gray-900'}`}>Sign In</button>
+                  <button onClick={() => setAuthTab('register')} className={`flex-1 py-3 text-sm font-medium rounded-lg transition-all duration-300 ${authTab === 'register' ? 'bg-white shadow-md text-black' : 'text-gray-500 hover:text-gray-900'}`}>Register</button>
                 </div>
+
                 {authTab === 'login' ? (
-                  <form className="space-y-4" onSubmit={handleLogin}>
-                    <div><label className="block text-sm font-medium text-gray-700 mb-1">Email</label><input type="email" name="email" className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-black transition-colors" placeholder="you@example.com" /></div>
-                    <div><label className="block text-sm font-medium text-gray-700 mb-1">Password</label><input type="password" name="password" className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-black transition-colors" placeholder="••••••••" /></div>
-                    <button className="w-full bg-black text-white py-4 rounded-lg font-bold hover:bg-gray-800 transition-colors">Sign In</button>
+                  <form className="space-y-6" onSubmit={handleLogin}>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Email Address</label>
+                      <input type="email" name="email" className="w-full p-4 bg-gray-50 border-b-2 border-gray-200 focus:border-black focus:bg-white outline-none transition-all rounded-t-lg" placeholder="you@example.com" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Password</label>
+                      <input type="password" name="password" className="w-full p-4 bg-gray-50 border-b-2 border-gray-200 focus:border-black focus:bg-white outline-none transition-all rounded-t-lg" placeholder="••••••••" />
+                    </div>
+                    <button className="w-full bg-black text-white py-5 rounded-xl font-bold text-lg hover:bg-gray-900 transform hover:-translate-y-1 transition-all shadow-xl mt-4">
+                      SIGN IN
+                    </button>
+                    <p className="text-center text-sm text-gray-400 mt-4 cursor-pointer hover:text-black transition-colors">Forgot your password?</p>
                   </form>
                 ) : (
-                  <form className="space-y-4" onSubmit={handleRegister}>
-                    <div className="p-4 bg-blue-50 text-blue-800 text-sm rounded-lg mb-4">Join today and instantly receive <strong>Gold Tier</strong> status.</div>
-                    <div><label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label><input name="name" required className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-black transition-colors" placeholder="John Doe" /></div>
-                    <div><label className="block text-sm font-medium text-gray-700 mb-1">Email</label><input name="email" type="email" required className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-black transition-colors" placeholder="you@example.com" /></div>
-                    <div><label className="block text-sm font-medium text-gray-700 mb-1">Password</label><input type="password" name="password" required className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-black transition-colors" placeholder="••••••••" /></div>
-                    <button type="submit" className="w-full bg-black text-white py-4 rounded-lg font-bold hover:bg-gray-800 transition-colors">Create Account</button>
+                  <form className="space-y-6" onSubmit={handleRegister}>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Full Name</label>
+                      <input type="text" name="name" className="w-full p-4 bg-gray-50 border-b-2 border-gray-200 focus:border-black focus:bg-white outline-none transition-all rounded-t-lg" placeholder="John Doe" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Email Address</label>
+                      <input type="email" name="email" className="w-full p-4 bg-gray-50 border-b-2 border-gray-200 focus:border-black focus:bg-white outline-none transition-all rounded-t-lg" placeholder="you@example.com" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold uppercase tracking-wider text-gray-500">Password</label>
+                      <input type="password" name="password" className="w-full p-4 bg-gray-50 border-b-2 border-gray-200 focus:border-black focus:bg-white outline-none transition-all rounded-t-lg" placeholder="••••••••" />
+                    </div>
+                    <button className="w-full bg-black text-white py-5 rounded-xl font-bold text-lg hover:bg-gray-900 transform hover:-translate-y-1 transition-all shadow-xl mt-4">
+                      JOIN THE CLUB
+                    </button>
                   </form>
                 )}
               </div>
@@ -249,6 +310,7 @@ const CartSidebar = ({ isCartOpen, setIsCartOpen, cart, cartTotal, updateQuantit
               </button>
             </div>
           </div>
+
           <div className="mt-8">
             {cart.length === 0 ? (
               <div className="text-center py-12">
@@ -263,6 +325,7 @@ const CartSidebar = ({ isCartOpen, setIsCartOpen, cart, cartTotal, updateQuantit
                       <div className="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
                         <img src={item.image} alt={item.name} className="w-full h-full object-center object-cover" />
                       </div>
+
                       <div className="ml-4 flex-1 flex flex-col">
                         <div>
                           <div className="flex justify-between text-base font-medium text-gray-900">
@@ -288,6 +351,7 @@ const CartSidebar = ({ isCartOpen, setIsCartOpen, cart, cartTotal, updateQuantit
             )}
           </div>
         </div>
+
         {cart.length > 0 && (
           <div className="border-t border-gray-200 py-6 px-4 sm:px-6 bg-gray-50">
             <div className="flex justify-between text-base font-medium text-gray-900 mb-4">
@@ -296,8 +360,11 @@ const CartSidebar = ({ isCartOpen, setIsCartOpen, cart, cartTotal, updateQuantit
             </div>
             <p className="mt-0.5 text-sm text-gray-500 mb-6">Shipping and taxes calculated at checkout.</p>
             <button
-              onClick={() => { setIsCartOpen(false); setView('checkout'); }}
-              className="w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-black hover:bg-gray-900"
+              onClick={() => {
+                setView('checkout');
+                setIsCartOpen(false);
+              }}
+              className="w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-black hover:bg-gray-800"
             >
               Checkout
             </button>
@@ -1095,17 +1162,17 @@ export default function App() {
           <div>
             <h4 className="font-bold text-gray-900 mb-4">Customer Care</h4>
             <ul className="space-y-2 text-sm text-gray-500">
-              <li>Shipping & Returns</li>
-              <li>Warranty</li>
-              <li>FAQ</li>
-              <li>Contact Us</li>
+              <li><button onClick={() => alert("Shipping: Free worldwide shipping on orders over $500.\nReturns: 30-day complimentary returns on all items.")} className="hover:text-black transition-colors">Shipping & Returns</button></li>
+              <li><button onClick={() => alert("Warranty: All products come with a 2-year international warranty covering manufacturing defects.")} className="hover:text-black transition-colors">Warranty</button></li>
+              <li><button onClick={() => alert("FAQ:\nQ: How do I track my order?\nA: You can track your order in the 'Order History' section of your profile.\n\nQ: Is my payment secure?\nA: Yes, we use industry-standard encryption.")} className="hover:text-black transition-colors">FAQ</button></li>
+              <li><button onClick={() => alert("Contact Us:\nEmail: concierge@luxe.com\nPhone: +1 (800) 555-0199\nHours: 24/7 Support")} className="hover:text-black transition-colors">Contact Us</button></li>
             </ul>
           </div>
           <div>
             <h4 className="font-bold text-gray-900 mb-4">Newsletter</h4>
             <div className="flex gap-2">
               <input type="email" placeholder="Enter your email" className="bg-white border border-gray-300 rounded-md px-4 py-2 w-full text-sm" />
-              <button className="bg-black text-white px-4 py-2 rounded-md text-sm font-bold">Join</button>
+              <button className="bg-black text-white px-4 py-2 rounded-md text-sm font-bold hover:bg-gray-800 transition-colors">Join</button>
             </div>
           </div>
         </div>
