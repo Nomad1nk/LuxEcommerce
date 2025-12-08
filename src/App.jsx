@@ -90,6 +90,15 @@ const LoadingScreen = () => (
   </div>
 );
 
+const InfoPage = ({ title, content }) => (
+  <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <h1 className="text-4xl font-serif font-bold text-gray-900 mb-8">{title}</h1>
+    <div className="prose prose-lg text-gray-600 whitespace-pre-wrap">
+      {content}
+    </div>
+  </div>
+);
+
 const Navbar = ({
   view,
   setView,
@@ -1151,6 +1160,115 @@ export default function App() {
             cart={cart}
           />
         )}
+
+
+        {view === 'shipping' && (
+          <InfoPage
+            title="Shipping & Returns"
+            content={`
+SHIPPING POLICY
+
+We offer complimentary worldwide shipping on all orders over $500. For orders under $500, a flat rate of $25 applies.
+
+- Domestic (US): 2-3 business days via FedEx Priority.
+- International: 3-5 business days via DHL Express.
+
+All shipments are fully insured and require a signature upon delivery. You will receive a tracking number via email once your order has been dispatched.
+
+RETURN POLICY
+
+We accept returns within 30 days of delivery. Items must be unworn, unwashed, and in their original condition with all tags attached.
+
+To initiate a return, please contact our concierge team. Refunds are processed within 5-7 business days of receiving your return.
+            `}
+          />
+        )}
+
+        {view === 'warranty' && (
+          <InfoPage
+            title="Warranty & Care"
+            content={`
+OUR PROMISE
+
+Every Luxe product is crafted with the highest attention to detail and quality. We stand behind our craftsmanship.
+
+WARRANTY COVERAGE
+
+All products come with a comprehensive 2-year international warranty that covers:
+- Manufacturing defects in materials and workmanship.
+- Hardware failure (zippers, clasps, buckles).
+- Stitching issues.
+
+This warranty does not cover:
+- Normal wear and tear.
+- Damage caused by misuse, accidents, or improper care.
+- Water damage (unless the item is explicitly waterproof).
+
+CARE INSTRUCTIONS
+
+To ensure your luxury items last a lifetime, we recommend:
+- Storing leather goods in the provided dust bag.
+- Avoiding prolonged exposure to direct sunlight and humidity.
+- Professional cleaning only for delicate fabrics.
+            `}
+          />
+        )}
+
+        {view === 'faq' && (
+          <InfoPage
+            title="Frequently Asked Questions"
+            content={`
+ORDERING
+
+Q: How do I track my order?
+A: Once your order ships, you will receive a tracking number via email. You can also track your order status in the "Order History" section of your profile.
+
+Q: Can I modify or cancel my order?
+A: We process orders quickly. Please contact us within 1 hour of placing your order if you need to make changes.
+
+PAYMENT
+
+Q: What payment methods do you accept?
+A: We accept all major credit cards (Visa, MasterCard, Amex), PayPal, and Apple Pay.
+
+Q: Is my payment information secure?
+A: Yes, we use industry-standard SSL encryption to protect your data. We do not store your credit card information.
+
+PRODUCTS
+
+Q: Are your products authentic?
+A: Absolutely. We guarantee the authenticity of every item we sell. We source directly from designers and authorized distributors.
+            `}
+          />
+        )}
+
+        {view === 'contact' && (
+          <InfoPage
+            title="Contact Us"
+            content={`
+WE'RE HERE TO HELP
+
+Our dedicated concierge team is available 24/7 to assist you with any inquiries.
+
+CONTACT CHANNELS
+
+- Email: concierge@luxe.com
+- Phone: +1 (800) 555-0199 (Toll-free)
+- WhatsApp: +1 (555) 012-3456
+
+HEADQUARTERS
+
+Luxe E-Commerce
+123 Fashion Avenue, Suite 500
+New York, NY 10012
+USA
+
+PRESS INQUIRIES
+
+For press and collaboration inquiries, please email press@luxe.com.
+            `}
+          />
+        )}
       </main>
 
       <footer className="bg-gray-50 border-t border-gray-200 py-12">
@@ -1162,10 +1280,10 @@ export default function App() {
           <div>
             <h4 className="font-bold text-gray-900 mb-4">Customer Care</h4>
             <ul className="space-y-2 text-sm text-gray-500">
-              <li><button onClick={() => alert("Shipping: Free worldwide shipping on orders over $500.\nReturns: 30-day complimentary returns on all items.")} className="hover:text-black transition-colors">Shipping & Returns</button></li>
-              <li><button onClick={() => alert("Warranty: All products come with a 2-year international warranty covering manufacturing defects.")} className="hover:text-black transition-colors">Warranty</button></li>
-              <li><button onClick={() => alert("FAQ:\nQ: How do I track my order?\nA: You can track your order in the 'Order History' section of your profile.\n\nQ: Is my payment secure?\nA: Yes, we use industry-standard encryption.")} className="hover:text-black transition-colors">FAQ</button></li>
-              <li><button onClick={() => alert("Contact Us:\nEmail: concierge@luxe.com\nPhone: +1 (800) 555-0199\nHours: 24/7 Support")} className="hover:text-black transition-colors">Contact Us</button></li>
+              <li><button onClick={() => setView('shipping')} className="hover:text-black transition-colors">Shipping & Returns</button></li>
+              <li><button onClick={() => setView('warranty')} className="hover:text-black transition-colors">Warranty</button></li>
+              <li><button onClick={() => setView('faq')} className="hover:text-black transition-colors">FAQ</button></li>
+              <li><button onClick={() => setView('contact')} className="hover:text-black transition-colors">Contact Us</button></li>
             </ul>
           </div>
           <div>
@@ -1177,7 +1295,7 @@ export default function App() {
           </div>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-gray-200 text-center text-sm text-gray-400">
-          © 2025 Luxe E-Commerce. All rights reserved.
+          © 2025 Lux E-Commerce. All rights reserved.
         </div>
       </footer>
     </div>
