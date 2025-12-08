@@ -342,7 +342,7 @@ const ProductGrid = ({ products, filteredProducts, categories, categoryFilter, s
         <div key={product.id} className="group relative flex flex-col">
           <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8 cursor-pointer relative" onClick={() => { setSelectedProduct(product); setView('product'); }}>
             <img src={product.image} alt={product.name} className="h-full w-full object-cover object-center group-hover:opacity-75 transition-opacity duration-300 h-64 lg:h-80 w-full" />
-            <button onClick={(e) => { e.stopPropagation(); addToCart(product); }} className="absolute bottom-4 right-4 bg-white p-3 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-gray-900 hover:text-white transform translate-y-4 group-hover:translate-y-0">
+            <button onClick={(e) => { e.stopPropagation(); addToCart(product); }} className="absolute bottom-4 right-4 bg-white p-3 rounded-full shadow-lg transition-all duration-300 hover:bg-gray-900 hover:text-white z-10">
               <Plus className="w-5 h-5" />
             </button>
           </div>
@@ -869,12 +869,21 @@ export default function App() {
       return;
     }
     setIsCartOpen(true);
-    const existingItem = cart.find(item => item.productId === product.id);
-    const cartRef = collection(db, 'artifacts', appId, 'users', user.uid, 'cart');
-    if (existingItem) {
-      await updateDoc(doc(cartRef, existingItem.id), { quantity: increment(1) });
-    } else {
-      await addDoc(cartRef, { productId: product.id, name: product.name, price: product.price, image: product.image, quantity: 1 });
+    try {
+      console.log("Adding to cart:", product.name);
+      const existingItem = cart.find(item => item.productId === product.id);
+      const cartRef = collection(db, 'artifacts', appId, 'users', user.uid, 'cart');
+      if (existingItem) {
+        console.log("Updating quantity for:", existingItem.id);
+        await updateDoc(doc(cartRef, existingItem.id), { quantity: increment(1) });
+      } else {
+        console.log("Creating new cart item");
+        await addDoc(cartRef, { productId: product.id, name: product.name, price: product.price, image: product.image, quantity: 1 });
+      }
+      console.log("Item added successfully");
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      alert(`Failed to add item: ${error.message}`);
     }
   };
 
