@@ -1,4 +1,4 @@
-# LUXE. - Modern Luxury E-Commerce Platform
+# LUXe. - Modern Luxury E-Commerce Platform
 
 A premium, minimalist e-commerce application built with **React**, **Vite**, **Tailwind CSS**, and **Firebase**.
 
