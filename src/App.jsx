@@ -41,7 +41,8 @@ import {
   serverTimestamp,
   increment,
   updateDoc,
-  getDoc
+  getDoc,
+  getDocs
 } from 'firebase/firestore';
 import { getAnalytics } from "firebase/analytics";
 
@@ -499,7 +500,7 @@ const ProductDetail = ({ selectedProduct, setView, addToCart }) => {
   );
 };
 
-const SellPage = ({ handleAddProduct, seedDatabase }) => (
+const SellPage = ({ handleAddProduct, resetDatabase }) => (
   <div className="max-w-2xl mx-auto px-4 py-16">
     <div className="text-center mb-10">
       <h1 className="text-3xl font-serif font-bold text-gray-900">List a Product</h1>
@@ -543,8 +544,8 @@ const SellPage = ({ handleAddProduct, seedDatabase }) => (
     </form>
     <div className="mt-12 pt-8 border-t border-gray-200 text-center">
       <p className="text-gray-400 text-sm mb-4">Don't see all the items? Force a restock.</p>
-      <button onClick={() => { seedDatabase(); alert('Restock started! Check the home page in a few seconds.'); }} className="inline-flex items-center text-sm text-gray-500 hover:text-black transition-colors">
-        <RefreshCw className="w-4 h-4 mr-2" /> Restock Inventory (Demo Only)
+      <button onClick={() => { resetDatabase(); alert('Resetting inventory... This may take a few seconds.'); }} className="inline-flex items-center text-sm text-gray-500 hover:text-black transition-colors">
+        <RefreshCw className="w-4 h-4 mr-2" /> Reset & Restock Inventory
       </button>
     </div>
   </div>
@@ -898,7 +899,7 @@ export default function App() {
     const targetRef = ref || collection(db, 'artifacts', appId, 'public', 'data', 'products');
     const initialProducts = [
       // Fashion
-      { name: "Midnight Velvet Tuxedo", price: 1250.00, category: "Fashion", image: "https://images.unsplash.com/photo-1593030761757-71fae45fa2e7?auto=format&fit=crop&w=1000&q=80", description: "Tailored perfection for evening elegance. Italian velvet.", rating: 4.9 },
+      { name: "Midnight Velvet Tuxedo", price: 1250.00, category: "Fashion", image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1000&q=80", description: "Tailored perfection for evening elegance. Italian velvet.", rating: 4.9 },
       { name: "Cashmere Trench Coat", price: 895.00, category: "Fashion", image: "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?auto=format&fit=crop&w=1000&q=80", description: "Pure cashmere blend. A winter essential.", rating: 4.8 },
       { name: "Silk Slip Dress", price: 320.00, category: "Fashion", image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=1000&q=80", description: "100% Mulberry silk in champagne gold.", rating: 4.7 },
 
@@ -913,8 +914,8 @@ export default function App() {
       { name: "Leica-Style Rangefinder", price: 2400.00, category: "Electronics", image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1000&q=80", description: "For the purist photographer. Full frame sensor.", rating: 5.0 },
 
       // Home
-      { name: "Japanese Ceramic Tea Set", price: 180.00, category: "Home", image: "https://images.unsplash.com/photo-1533158388470-9a56699990c6?auto=format&fit=crop&w=1000&q=80", description: "Hand-thrown pottery. Wabi-sabi aesthetic.", rating: 4.8 },
-      { name: "Santal & Amber Candle", price: 65.00, category: "Home", image: "https://images.unsplash.com/photo-1602825389660-18882cd25172?auto=format&fit=crop&w=1000&q=80", description: "Hand-poured soy wax. 60-hour burn time.", rating: 4.5 },
+      { name: "Japanese Ceramic Tea Set", price: 180.00, category: "Home", image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=1000&q=80", description: "Hand-thrown pottery. Wabi-sabi aesthetic.", rating: 4.8 },
+      { name: "Santal & Amber Candle", price: 65.00, category: "Home", image: "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=1000&q=80", description: "Hand-poured soy wax. 60-hour burn time.", rating: 4.5 },
       { name: "Egyptian Cotton Bedding", price: 420.00, category: "Home", image: "https://images.unsplash.com/photo-1631679706909-1844bbd07221?auto=format&fit=crop&w=1000&q=80", description: "800 thread count satin weave. Cloud-like comfort.", rating: 4.9 },
 
       // Furniture
@@ -923,7 +924,7 @@ export default function App() {
 
       // Beauty
       { name: "Rejuvenating Night Serum", price: 125.00, category: "Beauty", image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=1000&q=80", description: "With rare botanical extracts and hyaluronic acid.", rating: 4.8 },
-      { name: "Signature Eau de Parfum", price: 180.00, category: "Beauty", image: "https://images.unsplash.com/photo-1594035910387-fea477942698?auto=format&fit=crop&w=1000&q=80", description: "Notes of oud, bergamot, and spiced leather.", rating: 4.7 }
+      { name: "Signature Eau de Parfum", price: 180.00, category: "Beauty", image: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=1000&q=80", description: "Notes of oud, bergamot, and spiced leather.", rating: 4.7 }
     ];
     try {
       // Execute writes sequentially to avoid overwhelming the Firestore SDK client
@@ -934,6 +935,21 @@ export default function App() {
     } catch (error) {
       console.error("Error seeding database:", error);
       alert(`Failed to restock inventory: ${error.message}`);
+    }
+  };
+
+  const resetDatabase = async () => {
+    try {
+      const productsRef = collection(db, 'artifacts', appId, 'public', 'data', 'products');
+      const snapshot = await getDocs(productsRef);
+      const deletePromises = snapshot.docs.map(doc => deleteDoc(doc.ref));
+      await Promise.all(deletePromises);
+      await seedDatabase(productsRef);
+      alert("Database reset and seeded successfully!");
+      window.location.reload();
+    } catch (error) {
+      console.error("Error resetting database:", error);
+      alert(`Failed to reset database: ${error.message}`);
     }
   };
 
@@ -1142,7 +1158,7 @@ export default function App() {
         {view === 'sell' && (
           <SellPage
             handleAddProduct={handleAddProduct}
-            seedDatabase={seedDatabase}
+            resetDatabase={resetDatabase}
           />
         )}
 
