@@ -1,16 +1,72 @@
-# React + Vite
+# LUXE. - Modern Luxury E-Commerce Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A premium, minimalist e-commerce application built with **React**, **Vite**, **Tailwind CSS**, and **Firebase**.
 
-Currently, two official plugins are available:
+## 🌟 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+*   **Elegant Design**: A fully responsive, luxury-themed UI with smooth animations and glassmorphism effects.
+*   **Authentication**: Secure user registration and login using Firebase Auth.
+*   **User Profiles**:
+    *   Automatic profile creation.
+    *   VIP Membership Tiers (Gold, Platinum, etc.).
+    *   Personalized dashboard with Order History and Rewards.
+*   **Shopping Experience**:
+    *   Dynamic product grid with category filtering.
+    *   Real-time Shopping Cart (Firestore-backed).
+    *   Seamless "Add to Cart" functionality.
+    *   Product Details view.
+*   **Backend Integration**:
+    *   **Firestore Database**: Stores users, products, carts, and orders.
+    *   **Real-time Updates**: Instant UI updates when data changes.
+*   **Admin Tools**:
+    *   "Restock Inventory" button to seed the database with initial luxury products.
+    *   "Sell" page for adding new products (demo).
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+*   **Frontend**: React.js, Vite
+*   **Styling**: Tailwind CSS v4, Lucide React (Icons)
+*   **Backend**: Firebase (Authentication, Firestore)
+*   **State Management**: React Hooks (useState, useEffect, useMemo)
 
-## Expanding the ESLint configuration
+## 🚀 Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Prerequisites
+
+*   Node.js installed.
+*   A Firebase project with Authentication and Firestore enabled.
+
+### Installation
+
+1.  **Clone the repository**:
+    ```bash
+    git clone https://github.com/Nomad1nk/LuxEcommerce.git
+    cd LuxEcommerce
+    ```
+
+2.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
+
+3.  **Configure Firebase**:
+    *   Open `src/App.jsx`.
+    *   Replace the `firebaseConfig` object with your own Firebase project credentials.
+
+4.  **Run the development server**:
+    ```bash
+    npm run dev
+    ```
+
+5.  **Build for production**:
+    ```bash
+    npm run build
+    ```
+
+## 📸 Screenshots
+
+*(Add screenshots of your application here)*
+
+## 📄 License
+
+This project is licensed under the MIT License.
