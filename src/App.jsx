@@ -53,13 +53,6 @@ import { getAnalytics } from "firebase/analytics";
  * FIREBASE CONFIGURATION & INITIALIZATION
  */
 const firebaseConfig = {
-  apiKey: "AIzaSyBdT2IoLlKzWQvpu3ficUMxeScgD144yfM",
-  authDomain: "luxestore-cf40d.firebaseapp.com",
-  projectId: "luxestore-cf40d",
-  storageBucket: "luxestore-cf40d.firebasestorage.app",
-  messagingSenderId: "972495386942",
-  appId: "1:972495386942:web:b845178b2ba898c90c146f",
-  measurementId: "G-GK3084DGZ4"
 };
 
 // Initialize Firebase
